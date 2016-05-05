@@ -18,6 +18,9 @@ import numpy as np
 from sklearn.cluster import MeanShift, estimate_bandwidth
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
+from matplotlib import colors
+import six
+colors_ = list(six.iteritems(colors.cnames))
 #from sklearn.datasets.samples_generator import make_blobs
 
 #first_arg = sys.argv[0]
@@ -54,7 +57,7 @@ def mean_shiftf_clustering(in_filename, list_of_variable):
 		data_matrix.append(new)
 
 	# data_sample = data_matrix[:10000]
-	data_sample = data_matrix[:10000]
+	data_sample = data_matrix
 	X = np.array(data_sample)
 
 	###############################################################################
@@ -63,8 +66,8 @@ def mean_shiftf_clustering(in_filename, list_of_variable):
 	# The following bandwidth can be automatically detected using
 	bandwidth = estimate_bandwidth(X, quantile=0.2)
 
-	#ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
-	ms = MeanShift(bin_seeding=True)
+	ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
+	#ms = MeanShift(bin_seeding=True)
 	ms.fit(X)
 	labels = ms.labels_
 	cluster_centers = ms.cluster_centers_
@@ -82,8 +85,8 @@ def mean_shiftf_clustering(in_filename, list_of_variable):
 	plt.figure(1)
 	plt.clf()
 
-	m = Basemap(projection='mill',llcrnrlat=-60,urcrnrlat=90,\
-            llcrnrlon=-180,urcrnrlon=180,resolution='c')
+	m = Basemap(projection='mill',llcrnrlat=-90,urcrnrlat=90,\
+		        llcrnrlon=-180,urcrnrlon=180,resolution='c')
 
 	m.drawcoastlines()
 
@@ -98,22 +101,21 @@ def mean_shiftf_clustering(in_filename, list_of_variable):
 	m.drawmeridians(np.arange(-180.,181.,60.))
 
 	m.drawmapboundary(fill_color='#FFFFFF')
-	colors = 'brgcmykbgrcmykbgrcmykbgrcmyk'
 
 	for i in range(0,len(data_sample)):
 		lat,lon = float(data_as_list[i][2]), float(data_as_list[i][3])
 		x,y = m(lon,lat)
 		label = labels[i]
-		color = colors[label]+'o'
-		m.plot(x,y, color)
+		color = colors_[label][0]
+		m.plot(x,y, markeredgecolor = color, marker='o', markersize = 2)
 
 	#plt.xlabel(column_names[0]+"  " column_names[1])
 	plt.title('%s  34 variables Estimated number of clusters: %d' % (in_filename, n_clusters_))
 	plt.show()
 
 
-datafile = "date_2005-09-01.csv"
-list_of_variable =   range(4,38)
+
+list_of_variable =  [9,14]
 
 
 #first_arg = datafile
@@ -121,4 +123,5 @@ list_of_variable =   range(4,38)
 
 if __name__ == "__main__":
 	 #mean_shiftf_clustering(datafile,list_of_variable)
-     mean_shiftf_clustering(datafile,list_of_variable)
+     mean_shiftf_clustering("2000-03-01.csv",list_of_variable)
+     mean_shiftf_clustering("sample_2000-03-01.csv",list_of_variable)
