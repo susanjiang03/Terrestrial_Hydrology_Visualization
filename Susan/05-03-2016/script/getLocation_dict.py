@@ -9,7 +9,7 @@ import json
 # scan datafile indicators.csv
 # eg {0: [lat0, lon0], 1: [lat1,lon1]}
 in_filename = "1980-03-01.csv"
-json_fileName = 'indexLocation_dict.json'
+json_fileName = 'dict_index_lat_lon.json'
 def write_locatoins_dict_to_json(json_fileName ):
 	locationDict = {}
 	with open(in_filename, 'rb') as in_f:
@@ -29,18 +29,6 @@ def write_locatoins_dict_to_json(json_fileName ):
 	with open(json_fileName, 'w') as fp:
 	     json.dump(locationDict, fp)
 	fp.close()
-
-'''
-def get_locations_dict_from_json(json_fileName):
-   
-	locationDict = {}
-	with open(json_fileName) as data_file:
-		 data = json.load(data_file)
-		 print data
-
-
-get_locations_dict_from_json(json_fileName)
-'''
 
 
 
