@@ -36,7 +36,7 @@ DateCSV_DIR = PARENT_DIR + "/DateCSV"
 MeanShiftResult_DIR = PARENT_DIR + "/MeanShiftResult"
 MeanShiftResult_IMAGES_DIR = MeanShiftResult_DIR+ "/IMAGES"
 MeanShiftResult_LABELCSV_DIR = MeanShiftResult_DIR+ "/LABELCSV"
-MeanShiftResult_CLUSTERCENTERS_DIR = MeanShiftResult_DIR+ "/ClusterCenters"
+MeanShiftResult_CLUSTERCENTERSCSV_DIR = MeanShiftResult_DIR+ "/ClusterCentersCSV"
 SampleCSV_DIR = PARENT_DIR + "/SampleCSV"
 SampleLocationsTXT_DIR = PARENT_DIR + "/SampleLocationsTXT"
 GRID_INDEXLIST_JSON = "grid_indexList.json"
@@ -158,72 +158,47 @@ use after mean shift algorithm generate labels, and cluster_centers,
 @new_column_name
 @labels
 '''
-def populate_labelsClusters_to_csv_file(in_fileName, new_column_name,labels, out_fileName):
+def append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels):
 
 	##############################################################################
-	print  "\n++++++++ Writing clusterCenters to txt file : ++++++++++"
+	print  "\n++++++++ Writing clusterCenters to csv file : ++++++++++"
 
-	dest = out_fileName[:out_fileName.rfind("/")]
-	try:
-		os.makedirs(dest)
-	except OSError as exc:
-		if exc.errno != errno.EEXIST:
-			raise
-		else:
-			pass
-	#get the header
 	header = []
 	new_data_as_list = []
-	if not os.path.isfile(out_fileName):
-	#if new file , not exist, empty ,append first 4 columns in in_file, and label
-	    #append new header
-		header = HEADER[:4]
-		header.append(new_column_name)
+	#header = get_header(in_fileName)
+	#get the old data_as_list
+	data_as_list = get_data_as_list(in_fileName, range(0,len(HEADER)))
+	print data_as_list[:2]
+	#if column exist , the cluster labels for this list of varialbe exist already,
+	#find the index  replace
+	if new_column_name in HEADER:
+		print "This Clusters Labels column exists. Update for new cluster labels."
+		print new_column_name
+		#keep the header
 		new_data_as_list.append(header)
-		data_list_first_four_columns = get_data_as_list(in_fileName, range(0,4))
-		for row, label in zip(data_list_first_four_columns, labels):
-			newRow = row
-			newRow.append(label)
-			new_data_as_list.append(newRow)
-	#the file exits
+		theIndex = int(header.index(new_column_name))
+		for row, label in zip(data_as_list, labels):
+			#replace the label
+			print row
+			print row[theIndex]
+			row[theIndex] = label
+			new_data_as_list.append(row)
 	else:
-		header = get_header(out_fileName)
-		data_as_list = get_data_as_list(out_fileName, range(0,len(header)))
-		#if column exist , the cluster labels for this list of varialbe exist already,
-		#find the index  replace
-		if new_column_name in header:
-			#keep the header
-			new_data_as_list.append(header)
-			theIndex = header.index(new_column_name)
-			for row, label in zip(data_as_list, labels):
-				#replace the label
-				row[theIndex] = label
-				new_data_as_list.append(row)
-		else:
-			header.append(new_column_name)
-			new_data_as_list.append(header)
-			for row, label in zip(data_as_list, labels):
-				row.append(label)
-				new_data_as_list.append(row)
-	populate_dataList_to_csvFile(new_data_as_list,out_fileName)
+		#header.append(new_column_name)
+		header = ['index', 'start_date', 'lat', 'lon', 'ft_frozen', 'ft_thawed', 'ft_trans', 'ft_itrans', 
+'fw_fw_06_swe_-3', 'fw_fw_06_swe_-2', 'fw_fw_06_swe_-1', 'fw_fw_06_swe_+1', 'fw_fw_06_swe_+2', 
+'swe_swe_average_-3', 'swe_swe_average_-2', 'swe_swe_average_-1', 'swe_swe_average_+1', 'swe_swe_average_+2', 
+'energy_sw_up_-3', 'energy_sw_up_-2', 'energy_sw_up_-1', 'energy_sw_up_+1', 'energy_sw_up_+2', 
+'energy_sw_dn_-3', 'energy_sw_dn_-2', 'energy_sw_dn_-1', 'energy_sw_dn_+1', 'energy_sw_dn_+2', 
+'energy_lw_up_-3', 'energy_lw_up_-2', 'energy_lw_up_-1', 'energy_lw_up_+1', 'energy_lw_up_+2', 
+'energy_lw_dn_-3', 'energy_lw_dn_-2', 'energy_lw_dn_-1', 'energy_lw_dn_+1', 'energy_lw_dn_+2', '[ALL]_Q0.1']
+		new_data_as_list.append(header)
+		for row, label in zip(data_as_list, labels):
+			row.append(label)
+			new_data_as_list.append(row)
+	populate_dataList_to_csvFile(new_data_as_list,in_fileName)
 
 
-
-'''
-write result of mean shift algoritym , the matrix of clusterCenter to txt file
-'''
-def populate_clusterCenter_to_txt_file(clusterCenters,out_fileName):
-	dest = out_fileName[:out_fileName.rfind("/")]
-	try:
-		os.makedirs(dest)
-	except OSError as exc:
-		if exc.errno != errno.EEXIST:
-			raise
-		else:
-			pass
-	the_matrix = np.matrix(clusterCenters)
-	np.savetxt(out_fileName, the_matrix)
-	print "Save clusterCenters to %s\n"%out_fileName
 
 # '''after labelClusters_*.csv has been populated, plot map for the existing culstering label files
 # look csv file in the '/%s/LABLECSV/P%r_N%d'%(MeanShiftResut_DIR, percentage, sampleNum)
@@ -248,15 +223,16 @@ def populate_clusterCenter_to_txt_file(clusterCenters,out_fileName):
 
 
 '''
+does 4 things
+1) run meanShift  : 
+       meanShift_clustering(data_as_list,quantile)
+2)plot map :
+      plot_on_baseMap_by_matrix(list_lat_lon, labels, out_image_file)
+3)appendto csv file: 
+      append_labelsClusters_to_csv_file(in_fileName,new_column_name,labels, cluster_centers, out_csv_file_name)  
+4) save cluster center to csv file :
+      populate_clusterCenters_to_csv_file
 
-does four things
-1) run meanShift  : meanShift_clustering(data_as_list,quantile)
-2)plot map    : plot_on_baseMap_by_matrix(list_lat_lon, labels, out_image_file)
-3)write to csv file: 
-    populate_labelsClusters_to_csv_file(in_fileName,new_column_name,labels, cluster_centers, out_csv_file_name)  
-     a.save label to csv file 
-4 save cluster center to csv file :
-   populate_clusterCenters_to_csv_file
 @ the dir : csv in the dir to choose from
 @date : date '1991-12-01', '1992-03-01'
 @list_of_index  list of integer in range (4,38), to clustering
@@ -266,9 +242,6 @@ does four things
 
 # def meanShift_clustering_writeCSV_plotMap(in_fileName,list_of_index,quantile):
 def meanShift_clustering_writeCSV_plotMap(the_dir,date,list_of_index,quantile):
-	if not validDate(date):
-		print "Error. Invalid date."
-		return    
 	in_fileName = ""
 	file_name = ""
 	for fileName in os.listdir(the_dir):
@@ -278,40 +251,40 @@ def meanShift_clustering_writeCSV_plotMap(the_dir,date,list_of_index,quantile):
 	if in_fileName == "":
 		print "Error, no csv file for %s in %s"%(date,the_dir)
 		return
-		####### (1) MEANSHIFT #############################################
-	print "MeanShift for %s" %in_fileName
+	####### (1) MEANSHIFT #############################################
+	print "\n\nMeanShift for %s" %in_fileName
 	data_as_list = get_data_as_list(in_fileName, list_of_index)
-
 	labels, n_clusters_, cluster_centers = meanShift_clustering(data_as_list,quantile)
 
-	######## (2) PLOT ON MAP SAVE IMAGE TO out_image_file ###########################################
-	matrix_lat_lon_label = []  
-	list_lat_lon = get_data_as_list(in_fileName, range(2,4))
-	for row, label in zip(list_lat_lon, labels):
-		row.append(label)
-		matrix_lat_lon_label.append(row)
+	# ######## (2) Append LABELS TO CSV , Append to each row in in_fileName #######################################
 	#generate out_image_file_name
-	parent_folder_name = the_dir.split("/")[-1]
 	str_list_of_index = ""
 	list_of_index.sort()
 	if list_of_index == range(4,38):
 		str_list_of_index ='[ALL]'
 	else:
 		str_list_of_index = '[%s]'%(",".join(map(str,list_of_index)))
+	new_column_name =  '%s_Q%r'%(str_list_of_index,quantile)
+    #function
+	#append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels)
+
+	##########(3) WRITE CLUSTER CENTERS TO CSV in CLUSTERCENTERCSV folder #########################
+	#function
+	parent_folder_name = the_dir.split("/")[-1]
+	out_clusters_csv_file = "%s/%s_Q%r_V%s/clusterCenters_%s"%(MeanShiftResult_CLUSTERCENTERSCSV_DIR,parent_folder_name,quantile, str_list_of_index, file_name)
+	out_data_as_list = [HEADER[4:]]
+	out_data_as_list.extend(cluster_centers)
+	populate_dataList_to_csvFile(out_data_as_list,out_clusters_csv_file)
+
+	######## (4) PLOT ON MAP SAVE IMAGE TO out_image_file ###########################################
+	matrix_lat_lon_label = []  
+	list_lat_lon = get_data_as_list(in_fileName, range(2,4))
+	for row, label in zip(list_lat_lon, labels):
+		row.append(label)
+		matrix_lat_lon_label.append(row)
 	out_image_file = "%s/IMAGES/%s_Q%r_%s/map_%s"%(MeanShiftResult_DIR,parent_folder_name,quantile, str_list_of_index, file_name.replace(".csv","_C%d.jpg"%n_clusters_))
 	#function
 	#plot_on_baseMap_by_matrix(matrix_lat_lon_label, out_image_file)
-
-	# ######## (3) WRITE LABELS TO CSV #######################################
-	new_column_name =  '%s_%s_C%d'%(parent_folder_name,str_list_of_index , n_clusters_)
-	out_csv_file_name = "%s/LABELCSV/%s/labelClusters_%s"%(MeanShiftResult_DIR,parent_folder_name,file_name)
-    #function
-	populate_labelsClusters_to_csv_file(in_fileName, new_column_name,labels, out_csv_file_name)
-
-	##########(4) WRITE CLUSTER CENTERS TO CSV #########################
-	out_txt_file = "%s/%s_Q%r_V%s/clusterCenters_%s"%(MeanShiftResult_CLUSTERCENTERS_DIR,parent_folder_name,quantile, str_list_of_index, file_name.replace(".csv",".txt"))
-	#function
-	populate_clusterCenter_to_txt_file(cluster_centers,out_txt_file)
 
 
 
@@ -319,17 +292,14 @@ def meanShift_clustering_writeCSV_plotMap(the_dir,date,list_of_index,quantile):
 if __name__ == "__main__":
   
  	list_of_date = get_date_list()   #sorted
- 	#index_of_start_date = list_of_date.index('1991-12-01')
- 	#new_list_of_date = list_of_date[index_of_start_date : ] 
- 	new_list_of_date = list_of_date[list_of_date.index('1999-03-01'):]
+ 	new_list_of_date = list_of_date[list_of_date.index('1991-12-01'):list_of_date.index('1996-06-01')]
  	percentage = 0.1
  	sampleNum = 1
  	quantile = 0.1
- 	sample_dir = "%s/P%r_N%d"%(SampleCSV_DIR, percentage,sampleNum)
-
+	sample_dir = "%s/P%r_N%d"%(SampleCSV_DIR, percentage,sampleNum)
+	list_of_index = range(4,38)
 	for date in new_list_of_date:
-		meanShift_clustering_writeCSV_plotMap(sample_dir , date, range(4,38) ,quantile)
-		#meanShift_clustering_writeCSV_plotMap(DateCSV_DIR , date, range(4,38) ,quantile)
+		meanShift_clustering_writeCSV_plotMap(sample_dir , date, list_of_index ,quantile)
 
 
 

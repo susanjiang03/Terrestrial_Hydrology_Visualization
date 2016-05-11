@@ -40,10 +40,11 @@ def get_date_list():
 '''
 check if the date in date_list
 '''
-def validDate(date):
+def validate_ate(date):
 	date_list = get_date_list()
-	return date in date_list
-
+	if date not in date_list:
+	   print "Error. %snot in list"%s
+	   return 
 
 '''
 read from *_sample_*.txt file, return a list of integer
@@ -88,11 +89,13 @@ def get_header(in_fileName):
 # 	print list_lat_lon
 
 '''
+in_filename : dir + fileName  (/*/*.csv)
 return datamatrix need by a list of column index in the csv file  
+Assume
 '''
 
 def get_data_as_list(in_fileName, list_of_index):
-
+	
 	in_data_as_list = []
 	with open(in_fileName, 'rb') as in_f:
 		reader = csv.reader(in_f)
@@ -102,31 +105,37 @@ def get_data_as_list(in_fileName, list_of_index):
 
 	out_data_as_list = []
 	for row in in_data_as_list:
-		#print filtered_row
 		newRow = []
 		for i in list_of_index:
 			value = row[i]
+			#if is digit
 			if value.isdigit():
 				newRow.append(ast.literal_eval(value))  #data of the variable
-			else:
+			else:  #string
 				newRow.append(value )
-		#print newRow
 		out_data_as_list.append(newRow)
-
 	return out_data_as_list
 
-
 '''
 
 '''
-
-def get_cluster_centers_from_txt(the_dir, date):
+# def get_cluster_centers_from_txt(the_dir, date):
     
-    for fileName in os.listdir(the_dir):
-    	if date + ".txt" in fileName:
-    	   in_fileName = os.path.join(the_dir, fileName)
-    	   clusterCenters = loadtxt(in_fileName)
-    	   return clusterCenters
+#     for fileName in os.listdir(the_dir):
+#     	if date + ".txt" in fileName:
+#     	   in_fileName = os.path.join(the_dir, fileName)
+#     	   clusterCenters = loadtxt(in_fileName)
+#     	   return clusterCenters
+
+
+# def get_cluster_centers_matrix_from_csv():
+
+
+
+
+# def get_cluster_labels_from_csv():
+
+
 
 
 if __name__ == "__main__":
@@ -139,7 +148,14 @@ if __name__ == "__main__":
 	date = '1991-12-01'
 	#in_fileName = '%s/LABELCSV/P%r_N%d/labelsClusters_P%r_N%d_%s.csv'%(MeanShiftResult_DIR,percentage,sampleNum, percentage,sampleNum, date)
 	the_dir = MeanShiftResult_CLUSTERCENTERS_DIR + "/" + column_name + "_V" + string_list_of_index
-	clusterCenters = get_cluster_centers_from_txt(the_dir, '1991-12-01')
+	# clusterCenters = get_cluster_centers_from_txt(the_dir, '1991-12-01')
+	# in_fileName = SampleCSV_DIR + "/P0.1_N1/P0.1_N1_1991-12-01.csv"
+	# print get_data_as_list(in_fileName, range(4,38))
+
+
+
+
+
 
 
 

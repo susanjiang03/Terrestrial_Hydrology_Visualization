@@ -52,13 +52,22 @@ write data_as_list to csv file
 
 '''
 def populate_dataList_to_csvFile(data_as_list,out_fileName):
-	print 'Writing data to %s' %out_fileName
+	dest = out_fileName[ : out_fileName.rfind("/")]
+	try:
+		os.makedirs(dest)
+		print "Make Dir : %s" %dest
+	except OSError as exc:
+		if exc.errno != errno.EEXIST:
+			raise
+		else:
+			pass
+	print '\nWriting data to %s' %out_fileName
 	with open(out_fileName, 'w+') as out_f:
 		writer = csv.writer(out_f)
 		for row in data_as_list:
 			writer.writerow(row)
 	out_f.close()
-	print 'Finished writing data to %s\n' %out_fileName     
+	print '\nFinished writing data to %s' %out_fileName     
 
 '''
 get list of date from 'date_list.txt'
