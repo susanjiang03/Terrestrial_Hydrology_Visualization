@@ -156,7 +156,7 @@ def plot_on_baseMap_by_matrix(matrix_lat_lon_label, out_image_file):
 use after mean shift algorithm generate labels, and cluster_centers,
 @in_fileName
 @new_column_name
-@labels
+@labels , a list of integers
 '''
 def append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels):
 
@@ -165,18 +165,18 @@ def append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels):
 
 	header = []
 	new_data_as_list = []
-	#header = get_header(in_fileName)
+	header = get_header(in_fileName)
 	#get the old data_as_list
-	data_as_list = get_data_as_list(in_fileName, range(0,len(HEADER)))
+	data_as_list = get_data_as_list(in_fileName, range(0,len(header)))
 	print data_as_list[:2]
 	#if column exist , the cluster labels for this list of varialbe exist already,
 	#find the index  replace
-	if new_column_name in HEADER:
+	if new_column_name in header:
 		print "This Clusters Labels column exists. Update for new cluster labels."
 		print new_column_name
 		#keep the header
 		new_data_as_list.append(header)
-		theIndex = int(header.index(new_column_name))
+		theIndex = header.index(new_column_name)
 		for row, label in zip(data_as_list, labels):
 			#replace the label
 			print row
@@ -184,14 +184,7 @@ def append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels):
 			row[theIndex] = label
 			new_data_as_list.append(row)
 	else:
-		#header.append(new_column_name)
-		header = ['index', 'start_date', 'lat', 'lon', 'ft_frozen', 'ft_thawed', 'ft_trans', 'ft_itrans', 
-'fw_fw_06_swe_-3', 'fw_fw_06_swe_-2', 'fw_fw_06_swe_-1', 'fw_fw_06_swe_+1', 'fw_fw_06_swe_+2', 
-'swe_swe_average_-3', 'swe_swe_average_-2', 'swe_swe_average_-1', 'swe_swe_average_+1', 'swe_swe_average_+2', 
-'energy_sw_up_-3', 'energy_sw_up_-2', 'energy_sw_up_-1', 'energy_sw_up_+1', 'energy_sw_up_+2', 
-'energy_sw_dn_-3', 'energy_sw_dn_-2', 'energy_sw_dn_-1', 'energy_sw_dn_+1', 'energy_sw_dn_+2', 
-'energy_lw_up_-3', 'energy_lw_up_-2', 'energy_lw_up_-1', 'energy_lw_up_+1', 'energy_lw_up_+2', 
-'energy_lw_dn_-3', 'energy_lw_dn_-2', 'energy_lw_dn_-1', 'energy_lw_dn_+1', 'energy_lw_dn_+2', '[ALL]_Q0.1']
+		header.append(new_column_name)
 		new_data_as_list.append(header)
 		for row, label in zip(data_as_list, labels):
 			row.append(label)
