@@ -166,7 +166,6 @@ def append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels):
 	header = []
 	new_data_as_list = []
 	header = get_header(in_fileName)
-	#get the old data_as_list
 	data_as_list = get_data_as_list(in_fileName, range(0,len(header)))
 	print data_as_list[:2]
 	#if column exist , the cluster labels for this list of varialbe exist already,
@@ -257,16 +256,16 @@ def meanShift_clustering_writeCSV_plotMap(the_dir,date,list_of_index,quantile):
 		str_list_of_index ='[ALL]'
 	else:
 		str_list_of_index = '[%s]'%(",".join(map(str,list_of_index)))
-	new_column_name =  '%s_Q%r'%(str_list_of_index,quantile)
-    #function
-	#append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels)
+	new_column_name =  'V%s_Q%r_C%d'%(str_list_of_index,quantile,n_clusters_)
+    #append labels
+	append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels)
 
 	##########(3) WRITE CLUSTER CENTERS TO CSV in CLUSTERCENTERCSV folder #########################
-	#function
 	parent_folder_name = the_dir.split("/")[-1]
 	out_clusters_csv_file = "%s/%s_Q%r_V%s/clusterCenters_%s"%(MeanShiftResult_CLUSTERCENTERSCSV_DIR,parent_folder_name,quantile, str_list_of_index, file_name)
 	out_data_as_list = [HEADER[4:]]
 	out_data_as_list.extend(cluster_centers)
+	#write cluster centers
 	populate_dataList_to_csvFile(out_data_as_list,out_clusters_csv_file)
 
 	######## (4) PLOT ON MAP SAVE IMAGE TO out_image_file ###########################################
@@ -276,7 +275,7 @@ def meanShift_clustering_writeCSV_plotMap(the_dir,date,list_of_index,quantile):
 		row.append(label)
 		matrix_lat_lon_label.append(row)
 	out_image_file = "%s/IMAGES/%s_Q%r_%s/map_%s"%(MeanShiftResult_DIR,parent_folder_name,quantile, str_list_of_index, file_name.replace(".csv","_C%d.jpg"%n_clusters_))
-	#function
+	#plot_on_baseMap
 	#plot_on_baseMap_by_matrix(matrix_lat_lon_label, out_image_file)
 
 
@@ -285,7 +284,7 @@ def meanShift_clustering_writeCSV_plotMap(the_dir,date,list_of_index,quantile):
 if __name__ == "__main__":
   
  	list_of_date = get_date_list()   #sorted
- 	new_list_of_date = list_of_date[list_of_date.index('1991-12-01'):list_of_date.index('1996-06-01')]
+ 	new_list_of_date = list_of_date[list_of_date.index('1991-12-01'):]
  	percentage = 0.1
  	sampleNum = 1
  	quantile = 0.1

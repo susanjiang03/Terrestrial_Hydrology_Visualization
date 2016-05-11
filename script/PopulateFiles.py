@@ -13,7 +13,7 @@ CURRENT_DIR = os.getcwd()
 raw_dataFile = "indicators.csv"
 PARENT_DIR = CURRENT_DIR[:CURRENT_DIR.rfind("/")]
 DateCSV_DIR = PARENT_DIR + "/DateCSV"
-MeanShiftResutl_DIR = PARENT_DIR + "/MeanShiftResutl"
+MeanShiftResult_DIR = PARENT_DIR + "/MeanShiftResult"
 SampleCSV_DIR = PARENT_DIR + "/SampleCSV"
 SampleLocationsTXT_DIR = PARENT_DIR + "/SampleLocationsTXT"
 GRID_INDEXLIST_JSON = "grid_indexList.json"
@@ -253,7 +253,41 @@ def populate_sample_date_csv_file(percentage,sampleNum, list_of_date):
 			in_f.close()
 
 
+'''
+@the dir, where the csv  files in
+@date, date in the datelist
+
+will populate histogram counts of all 
+'''
+
+def populate_histogram_count_to_csv_file(the_dir,date,list_of_index,):
+
+
+	
+
+
 if __name__ == "__main__":
 	percentage = 0.1
 	#sampleNum = populate_sample_locations_txt(percentage)[0]
-	populate_sample_date_csv_file(percentage ,1, ['2005-09-01'])
+	# populate_sample_date_csv_file(percentage ,1, ['2005-09-01'])
+	date_list = get_date_list()
+	start_index = date_list.index('1991-12-01')
+	new_date_list = date_list[start_index:]
+	for date in new_date_list:
+		in_fileName = '%s/ClusterCentersCSV/P0.1_N1_Q0.1_V[ALL]/clusterCenters_P0.1_N1_%s.csv'%(MeanShiftResult_DIR,date)
+		n_cluster_ = len(get_data_as_list(in_fileName,[0]))
+		#rewrite the column name 
+		new_column_name = 'V[ALL]_Q0.1_C%d'%n_cluster_
+		rewrite_fileName = '%s/P0.1_N1/P0.1_N1_%s.csv'%(SampleCSV_DIR,date)
+		header = get_header(rewrite_fileName)
+		header[-1] = new_column_name
+		print header
+		data_as_list = get_data_as_list(rewrite_fileName,range(0,len(header)))
+		out_data_as_list = []
+		out_data_as_list.append(header)
+		out_data_as_list.extend(data_as_list)
+		populate_dataList_to_csvFile(out_data_as_list, rewrite_fileName)
+
+
+
+

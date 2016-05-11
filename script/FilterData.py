@@ -70,7 +70,7 @@ def filter_by_index(in_fileName, index):
 		for line in datareader:
 			if int(line[0]) == index:
 				data_as_list.append(line)
-		#print "Finished"
+		print "Finished"
 	in_f.close()
 	return data_as_list
 	# else: 
@@ -79,63 +79,70 @@ def filter_by_index(in_fileName, index):
 '''
 read in_fileName, filter by index, 
 @in_fileName: csv file
-@column name in header
+@index : the column index in the data
 @value : filter by the value
-@return_column_index : return the index 
-return a list of row with the index
 exclude header
+return a list of row
 '''
-def filter_by_columnName_value(in_fileName, column_name, value, return_column_name):
+def filter_by_index_value(in_fileName, index, value):
     #if index not in locationlist
 	data_as_list = []
 	with open(in_fileName, 'rb') as in_f:
 		datareader = csv.reader(in_f)
 		header = datareader.next()
-		index = header.index(column_name)
-		return_column_index = header.index(return_column_name)
 		next(datareader, None)
-		print "\nStart filtering data for index %d in file: \n%s"%(index,in_fileName)
+		#print "\nStart filtering data for index %d in file: \n%s"%(index,in_fileName)
 		for line in datareader:
 			if int(line[index]) == value:
-				return_column = line[return_column_index]
-				data_as_list.append(return_column)
+				data_as_list.append(line)
 	in_f.close()
+	#print "Finished filtering.Total number of rows is :%d"%len(data_as_list)
 	return data_as_list
 
 
-if __name__ == "__main__":
-		#print 'from filterData.py'
-	percentage = 0.1
-	sampleNum = 1
-	quantile = 0.1
-	string_list_of_index = '[ALL]'
-	column_name = 'P%r_N%d_Q%r'%(percentage,sampleNum,quantile)
-	date = '1991-12-01'
-	#in_fileName = '%s/LABELCSV/P%r_N%d/labelsClusters_P%r_N%d_%s.csv'%(MeanShiftResult_DIR,percentage,sampleNum, percentage,sampleNum, date)
-	in_fileName = '%s/P%r_N%d/P0.1_N1_1991-12-01.csv'%(SampleCSV_DIR, percentage, sampleNum)
-	# print len(filter_by_index_value(in_fileName,4, 1))
-	# print len(filter_by_index_value(in_fileName,4, 2))
-	# print len(filter_by_index_value(in_fileName,4, 3))
-	for c in range(0,7):
-		for i in range(4,38):
-			plt.figure(1)
-			plt.clf()
-			data_as_list = filter_by_columnName_value(in_fileName,'[ALL]_Q0.1', c, HEADER[i])
-			plot_data = map(int,data_as_list[:])
-			plt.hist(plot_data, bins= range(0,95,5))
-			#(array([0, 2, 1]), array([0, 1, 2, 3]), <a list of 3 Patch objects>)
-			imageName = '/%s/HISTOGRAMS/P0.1_N1_Q0.1_[ALL]/C%r_V%d_%s.jpg'%(MeanShiftResult_DIR,c,i, HEADER[i])
-			dest = imageName[:imageName.rfind("/")]
-			try:
-				os.makedirs(dest)
-			except OSError as exc: # Guard against race condition
-				if exc.errno != errno.EEXIST:
-					raise
-				else:
-					pass
-			plt.savefig(imageName)
-			plt.clf()
-			print "save %s"%imageName
+# if __name__ == "__main__":
+
+	# date_list = get_date_list()
+	# start_date_index = date_list.index('1991-12-01')
+	# new_date_list = date_list[start_date_index:]
+	# for d in new_date_list:
+	# 	in_fileName = '%s/P0.1_N1/P0.1_N1_%s.csv'%(SampleCSV_DIR, d)
+	# 	for i in range(4,38):
+	# 		    header = get_header(in_fileName)
+	# 		    index = len(header) - 1
+	# 		    column_name = header[-1]
+	# 		    n_clusters_ = int(column_name[column_name.rfind('C') + 1 :])
+	# 		    #plot for each cluster 
+	# 		    for c in range(0,n_clusters_):
+	# 				data_as_list = filter_by_index_value(in_fileName,index,c)
+	# 				plot_data = []
+	# 				for row in data_as_list:
+	# 					plot_data.append(int(row[i]))
+	# 				#print plot_data
+	# 				print len(plot_data)
+	# 				#print plot_data
+	# 				#plot_data_freq = map(lambda x: float(x/total_num),plot_data)
+	# 				#print plot_data_freq
+	# 				plt.figure(1)
+	# 				plt.clf()
+	# 				plt.hist(plot_data, bins= range(0,95,5))
+	# 				title = 'Histogram for Cluster %d on variable[%d] %s on %s\n'%(c,i,HEADER[i],d)
+	# 				plt.title(title)
+	# 				print title
+	# 				#(array([0, 2, 1]), array([0, 1, 2, 3]), <a list of 3 Patch objects>)
+	# 				dest = '%s/HISTOGRAMS/P0.1_N1_Q0.1_[ALL]/%s/C%d'%(MeanShiftResult_DIR,d,c)
+	# 				try:
+	# 					os.makedirs(dest)
+	# 				except OSError as exc: # Guard against race condition
+	# 					if exc.errno != errno.EEXIST:
+	# 						raise
+	# 					else:
+	# 						pass
+	# 				imageName = '%s/C%d_V%d_.jpg'%(dest,c,i)
+	# 				plt.savefig(os.path.join(dest,imageName))
+	# 				#plt.show()
+	# 				plt.clf()
+	# 				print "save to %s:  \n%s"%(dest, imageName)
 	
 
 
