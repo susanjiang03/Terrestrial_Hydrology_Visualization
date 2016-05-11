@@ -138,19 +138,19 @@ def get_data_as_list(in_fileName, list_of_index):
 
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
    
-	percentage = 0.1
-	sampleNum = 1
-	quantile = 0.1
-	string_list_of_index = '[ALL]'
-	column_name = 'P%r_N%d_Q%r'%(percentage,sampleNum,quantile)
-	date = '1991-12-01'
-	#in_fileName = '%s/LABELCSV/P%r_N%d/labelsClusters_P%r_N%d_%s.csv'%(MeanShiftResult_DIR,percentage,sampleNum, percentage,sampleNum, date)
-	the_dir = MeanShiftResult_CLUSTERCENTERS_DIR + "/" + column_name + "_V" + string_list_of_index
-	# clusterCenters = get_cluster_centers_from_txt(the_dir, '1991-12-01')
-	# in_fileName = SampleCSV_DIR + "/P0.1_N1/P0.1_N1_1991-12-01.csv"
-	# print get_data_as_list(in_fileName, range(4,38))
+# 	percentage = 0.1
+# 	sampleNum = 1
+# 	quantile = 0.1
+# 	string_list_of_index = '[ALL]'
+# 	column_name = 'P%r_N%d_Q%r'%(percentage,sampleNum,quantile)
+# 	date = '1991-12-01'
+# 	#in_fileName = '%s/LABELCSV/P%r_N%d/labelsClusters_P%r_N%d_%s.csv'%(MeanShiftResult_DIR,percentage,sampleNum, percentage,sampleNum, date)
+# 	the_dir = MeanShiftResult_CLUSTERCENTERS_DIR + "/" + column_name + "_V" + string_list_of_index
+# 	# clusterCenters = get_cluster_centers_from_txt(the_dir, '1991-12-01')
+# 	# in_fileName = SampleCSV_DIR + "/P0.1_N1/P0.1_N1_1991-12-01.csv"
+# 	# print get_data_as_list(in_fileName, range(4,38))
 
 
 

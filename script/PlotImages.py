@@ -83,41 +83,41 @@ return a list, including header
 	
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-	date_list = get_date_list()
-	start_date_index = date_list.index('1995-03-01')
-	new_date_list = date_list[start_date_index:]
-	for d in new_date_list[0:1]:
-		in_fileName = '%s/P0.1_N1/P0.1_N1_%s.csv'%(SampleCSV_DIR, d)
-		data_as_list = get_data_as_list(in_fileName,range(4,38))
-		for i in range(4,34):
-		    #plot for all data for 34 varialbes
-			plot_data = []
-			for row in data_as_list:
-				plot_data.append(int(row[i-4]))
-			#print plot_data
-			print len(plot_data)
-			plt.figure(1)
-			plt.clf()
-			plt.hist(plot_data, bins= range(0,95,5))
-			title = 'Histogram for all sample locations on all %d variables on %s\n'%(len(range(4,38)),d)
-			plt.title(title)
-			print title
-			#(array([0, 2, 1]), array([0, 1, 2, 3]), <a list of 3 Patch objects>)
-			dest = '%s/HISTOGRAMS/P0.1_N1_Q0.1_[ALL]/%s/allLocations'%(MeanShiftResult_DIR,d)
-			try:
-				os.makedirs(dest)
-			except OSError as exc: # Guard against race condition
-				if exc.errno != errno.EEXIST:
-					raise
-				else:
-					pass
-			imageName = '%s/allLocations_V%d_.jpg'%(dest,i)
-			plt.savefig(os.path.join(dest,imageName))
-			#plt.show()
-			plt.clf()
-			print "save to %s:  \n%s"%(dest, imageName)
+# 	date_list = get_date_list()
+# 	start_date_index = date_list.index('1995-03-01')
+# 	new_date_list = date_list[start_date_index:]
+# 	for d in new_date_list[0:1]:
+# 		in_fileName = '%s/P0.1_N1/P0.1_N1_%s.csv'%(SampleCSV_DIR, d)
+# 		data_as_list = get_data_as_list(in_fileName,range(4,38))
+# 		for i in range(4,34):
+# 		    #plot for all data for 34 varialbes
+# 			plot_data = []
+# 			for row in data_as_list:
+# 				plot_data.append(int(row[i-4]))
+# 			#print plot_data
+# 			print len(plot_data)
+# 			plt.figure(1)
+# 			plt.clf()
+# 			plt.hist(plot_data, bins= range(0,95,5))
+# 			title = 'Histogram for all sample locations on all %d variables on %s\n'%(len(range(4,38)),d)
+# 			plt.title(title)
+# 			print title
+# 			#(array([0, 2, 1]), array([0, 1, 2, 3]), <a list of 3 Patch objects>)
+# 			dest = '%s/HISTOGRAMS/P0.1_N1_Q0.1_[ALL]/%s/allLocations'%(MeanShiftResult_DIR,d)
+# 			try:
+# 				os.makedirs(dest)
+# 			except OSError as exc: # Guard against race condition
+# 				if exc.errno != errno.EEXIST:
+# 					raise
+# 				else:
+# 					pass
+# 			imageName = '%s/allLocations_V%d_.jpg'%(dest,i)
+# 			plt.savefig(os.path.join(dest,imageName))
+# 			#plt.show()
+# 			plt.clf()
+# 			print "save to %s:  \n%s"%(dest, imageName)
 	
 
 

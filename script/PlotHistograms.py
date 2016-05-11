@@ -137,24 +137,24 @@ def plot_histogram(plot_data_list,bins,out_image_file):
 			print "save to %s:  \n%s"%(dest, imageName)
 
 
-def populate
+# def populate
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-	date_list = get_date_list()
-	start_date_index = date_list.index('1995-03-01')
-	new_date_list = date_list[start_date_index:]
-	for d in new_date_list[0:1]:
-		in_fileName = '%s/P0.1_N1/P0.1_N1_%s.csv'%(SampleCSV_DIR, d)
-		data_as_list = get_data_as_list(in_fileName,range(4,38))
-		for i in range(4,34):
-		    #plot for all data for 34 varialbes
-			plot_data = []
-			for row in data_as_list:
-				plot_data.append(int(row[i-4]))
-			#print plot_data
-			print len(plot_data)
+# 	date_list = get_date_list()
+# 	start_date_index = date_list.index('1995-03-01')
+# 	new_date_list = date_list[start_date_index:]
+# 	for d in new_date_list[0:1]:
+# 		in_fileName = '%s/P0.1_N1/P0.1_N1_%s.csv'%(SampleCSV_DIR, d)
+# 		data_as_list = get_data_as_list(in_fileName,range(4,38))
+# 		for i in range(4,34):
+# 		    #plot for all data for 34 varialbes
+# 			plot_data = []
+# 			for row in data_as_list:
+# 				plot_data.append(int(row[i-4]))
+# 			#print plot_data
+# 			print len(plot_data)
 			
 	
 

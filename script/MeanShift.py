@@ -178,8 +178,6 @@ def append_labelsClusters_to_csv_file(in_fileName, new_column_name,labels):
 		theIndex = header.index(new_column_name)
 		for row, label in zip(data_as_list, labels):
 			#replace the label
-			print row
-			print row[theIndex]
 			row[theIndex] = label
 			new_data_as_list.append(row)
 	else:
@@ -290,7 +288,7 @@ if __name__ == "__main__":
  	quantile = 0.1
 	sample_dir = "%s/P%r_N%d"%(SampleCSV_DIR, percentage,sampleNum)
 	list_of_index = range(4,38)
-	for date in new_list_of_date:
+	for date in new_list_of_date[0:3]:
 		meanShift_clustering_writeCSV_plotMap(sample_dir , date, list_of_index ,quantile)
 
 
