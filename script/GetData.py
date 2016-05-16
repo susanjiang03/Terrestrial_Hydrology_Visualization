@@ -66,11 +66,12 @@ def get_sample_locations_list(percentage,sampleNum):
 ''' get header of the in_fileName,'''
 def get_header(in_fileName):
 	header = []
-	with open(in_fileName, 'rb') as in_f:
-		datareader = csv.reader(in_f)
-		header = datareader.next()
+	with open(in_fileName, 'rU') as in_f:
+		reader = csv.reader(in_f)
+		data_as_list = list(reader)
+		header = data_as_list[0]
 	in_f.close()
-	return header 
+	return header
 
 
 '''
@@ -97,14 +98,12 @@ Assume
 def get_data_as_list(in_fileName, list_of_index):
 	
 	in_data_as_list = []
-	with open(in_fileName, 'rb') as in_f:
+	with open(in_fileName, 'rU') as in_f:
 		reader = csv.reader(in_f)
-		next(reader, None) #skip the headers
-		in_data_as_list = list(reader)
+		data_as_list = list(reader)
 	in_f.close()
-
 	out_data_as_list = []
-	for row in in_data_as_list:
+	for row in data_as_list[1:]:
 		newRow = []
 		for i in list_of_index:
 			value = row[i]
@@ -115,44 +114,6 @@ def get_data_as_list(in_fileName, list_of_index):
 				newRow.append(value )
 		out_data_as_list.append(newRow)
 	return out_data_as_list
-
-'''
-
-'''
-# def get_cluster_centers_from_txt(the_dir, date):
-    
-#     for fileName in os.listdir(the_dir):
-#     	if date + ".txt" in fileName:
-#     	   in_fileName = os.path.join(the_dir, fileName)
-#     	   clusterCenters = loadtxt(in_fileName)
-#     	   return clusterCenters
-
-
-# def get_cluster_centers_matrix_from_csv():
-
-
-
-
-# def get_cluster_labels_from_csv():
-
-
-
-
-# if __name__ == "__main__":
-   
-# 	percentage = 0.1
-# 	sampleNum = 1
-# 	quantile = 0.1
-# 	string_list_of_index = '[ALL]'
-# 	column_name = 'P%r_N%d_Q%r'%(percentage,sampleNum,quantile)
-# 	date = '1991-12-01'
-# 	#in_fileName = '%s/LABELCSV/P%r_N%d/labelsClusters_P%r_N%d_%s.csv'%(MeanShiftResult_DIR,percentage,sampleNum, percentage,sampleNum, date)
-# 	the_dir = MeanShiftResult_CLUSTERCENTERS_DIR + "/" + column_name + "_V" + string_list_of_index
-# 	# clusterCenters = get_cluster_centers_from_txt(the_dir, '1991-12-01')
-# 	# in_fileName = SampleCSV_DIR + "/P0.1_N1/P0.1_N1_1991-12-01.csv"
-# 	# print get_data_as_list(in_fileName, range(4,38))
-
-
 
 
 

@@ -21,6 +21,13 @@ INDEX_LATLON_JSON = "index_LatLon.json"
 DATE_LIST_TXT = "date_list.txt"
 LIST_OF_ALL_DATA = get_date_list() 
 
+HEADER = ['index', 'start_date', 'lat', 'lon', 'ft_frozen', 'ft_thawed', 'ft_trans', 'ft_itrans', 
+'fw_fw_06_swe_-3', 'fw_fw_06_swe_-2', 'fw_fw_06_swe_-1', 'fw_fw_06_swe_+1', 'fw_fw_06_swe_+2', 
+'swe_swe_average_-3', 'swe_swe_average_-2', 'swe_swe_average_-1', 'swe_swe_average_+1', 'swe_swe_average_+2', 
+'energy_sw_up_-3', 'energy_sw_up_-2', 'energy_sw_up_-1', 'energy_sw_up_+1', 'energy_sw_up_+2', 
+'energy_sw_dn_-3', 'energy_sw_dn_-2', 'energy_sw_dn_-1', 'energy_sw_dn_+1', 'energy_sw_dn_+2', 
+'energy_lw_up_-3', 'energy_lw_up_-2', 'energy_lw_up_-1', 'energy_lw_up_+1', 'energy_lw_up_+2', 
+'energy_lw_dn_-3', 'energy_lw_dn_-2', 'energy_lw_dn_-1', 'energy_lw_dn_+1', 'energy_lw_dn_+2']
 
 '''
 populate date_list.txt file, a list of distinct date
@@ -31,8 +38,8 @@ def populate_date_list_txt_file():
     with open(raw_dataFile, 'rb') as in_f:
     	 datareader = csv.reader(in_f)
     	 #skip the headers
-    	 next(datareader, None)
-    	 for row in datareader:
+    	 data_as_list = list(data_as_list)[1:]
+    	 for row in data_as_list:
     	 	 date = row[1]
     	 	 if date not in date_list:
     	 	 	print "find a distinct date : %s"%date
@@ -51,7 +58,7 @@ write data_as_list to csv file
 @out_fileName: dir + fileName
 
 '''
-def populate_dataList_to_csvFile(data_as_list,out_fileName):
+def populate_data_as_list_to_csv_file(data_as_list,out_fileName):
 	dest = out_fileName[ : out_fileName.rfind("/")]
 	try:
 		os.makedirs(dest)
@@ -91,7 +98,7 @@ def populate_all_date_csv_files(in_fileName,dest):
 		data_as_list.append(header)
 		data_as_list.extend(filter_by_date(in_fileName, date))
 		out_fileName = '%s/%s.csv'%(dest, date)
-		populate_dataList_to_csvFile(data_as_list,out_fileName)
+		populate_data_as_list_to_csv_file(data_as_list,out_fileName)
 
 '''
 in_fileName is raw_File , or DataCSV_DIR + '/2005-12-01.csv'
@@ -218,27 +225,29 @@ def populate_sample_date_csv_file(percentage,sampleNum, list_of_date):
     else:
     	sample_indexList = get_sample_locations_list(percentage,sampleNum)
 	#save files to :
-	dest = '%s/P%r_N%d'%(SampleCSV_DIR, percentage, sampleNum)
-	try:
-	   os.makedirs(dest)
-	except OSError as exc:
-		if exc.errno != errno.EEXIST:
-		    raise
-		else:
-			pass
+	# dest = '%s/P%r_N%d'%(SampleCSV_DIR, percentage, sampleNum)
+	# try:
+	#    os.makedirs(dest)
+	# except OSError as exc:
+	# 	if exc.errno != errno.EEXIST:
+	# 	    raise
+	# 	else:
+	# 		pass
     #get selected sample rows for each file in the dir,
     #save to data_as_list
     #populate csc file
 	for fileName in os.listdir(DateCSV_DIR):
 		if ".csv" in fileName and fileName.split(".")[0] in list_of_date:
 			start = datetime.datetime.now()
-			out_fileName = '%s/P%r_N%d/P%r_N%d_%s'%(SampleCSV_DIR, percentage,sampleNum, percentage,sampleNum,fileName)
+			#out_fileName = '%s/P%r_N%d/P%r_N%d_%s'%(SampleCSV_DIR, percentage,sampleNum, percentage,sampleNum,fileName)
+
 			data_as_list = []
-			with open(os.path.join(DateCSV_DIR,fileName) ,'r') as in_f:  
+			with open(os.path.join(DateCSV_DIR,fileName) ,'rU') as in_f:  
 				reader = csv.reader(in_f)
 				data_as_list = list(reader) 
 				header = data_as_list[0]
-				out_f = open(out_fileName, 'w+')
+				# out_f = open(out_fileName, 'w+')
+				out_f = open(os.path.join(SampleCSV_DIR, fileName),'w+')
 				writer = csv.writer(out_f)
 
 				print "Start filtering data for %s"%fileName
@@ -246,7 +255,7 @@ def populate_sample_date_csv_file(percentage,sampleNum, list_of_date):
 					if int(row[0]) in sample_indexList:
 						writer.writerow(row)
 				out_f.close()
-				print "Finished.Save to :\n  %s"%out_fileName
+				#print "Finished.Save to :\n  %s"%out_fileName
 				end = datetime.datetime.now()
 				elapsedTime = end - start
 				print "Finished populate_sample_all_date_csv_files elapsedTime : " + str(elapsedTime)
@@ -266,27 +275,35 @@ will populate histogram counts of all
 	
 
 
-# # if __name__ == "__main__":
-# # 	percentage = 0.1
-# 	#sampleNum = populate_sample_locations_txt(percentage)[0]
-# 	# populate_sample_date_csv_file(percentage ,1, ['2005-09-01'])
+# if __name__ == "__main__":
 # 	date_list = get_date_list()
-# 	start_index = date_list.index('1991-12-01')
-# 	new_date_list = date_list[start_index:]
-# 	for date in new_date_list:
-# 		in_fileName = '%s/ClusterCentersCSV/P0.1_N1_Q0.1_V[ALL]/clusterCenters_P0.1_N1_%s.csv'%(MeanShiftResult_DIR,date)
-# 		n_cluster_ = len(get_data_as_list(in_fileName,[0]))
-# 		#rewrite the column name 
-# 		new_column_name = 'V[ALL]_Q0.1_C%d'%n_cluster_
-# 		rewrite_fileName = '%s/P0.1_N1/P0.1_N1_%s.csv'%(SampleCSV_DIR,date)
-# 		header = get_header(rewrite_fileName)
-# 		header[-1] = new_column_name
-# 		print header
-# 		data_as_list = get_data_as_list(rewrite_fileName,range(0,len(header)))
-# 		out_data_as_list = []
-# 		out_data_as_list.append(header)
-# 		out_data_as_list.extend(data_as_list)
-# 		populate_dataList_to_csvFile(out_data_as_list, rewrite_fileName)
+# 	for date in date_list[ date_list.index('1991-12-01') : ] :
+# 		in_fileName = '%s/%s.csv'%(SampleCSV_DIR, date)
+# 		data_as_list = get_data_as_list(in_fileName, range(0,39))
+# 		list_of_labels = [ int(row[-1]) for row in data_as_list]
+# 		n_cluster_ = max(list_of_labels) + 1
+# 		for n in range(0,n_cluster_):
+# 			filter_data_as_list = [row[:-1] for row in data_as_list if int(row[-1]) == n]
+# 			for i in range(0,34):
+# 				header = ['lat', 'lon', HEADER[i + 4]]
+# 				data = [ [float(row[2]), float(row[3]), int(row[i + 4])] for row in filter_data_as_list]
+# 				out_data_as_list = []
+# 				out_data_as_list.append(header)
+# 				out_data_as_list.extend(data)
+# 				out_file = '%s/HISTOGRAMS/%s-%d-%d.csv'%(MeanShiftResult_DIR,date,n,i)
+# 				populate_data_as_list_to_csv_file(out_data_as_list, out_file)
+# # 	date_list = get_date_list()
+# 	list_of_date = date_list[ date_list.index('1991-12-01') :]
+# 	# populate_sample_date_csv_file(0.1, 1, list_of_date)
+# 	for date in date_list:
+# 		for fileName in os.listdir(SampleCSV_DIR):
+# 			if date in fileName:
+# 				in_fileName = os.path.join(SampleCSV_DIR, fileName)
+# 				data_as_list = get_data_as_list(in_fileName, range(0,38))
+# 				out_data_as_list = []
+# 				out_data_as_list.append(HEADER[0:38])
+# 				out_data_as_list.extend(data_as_list)
+# 				populate_data_as_list_to_csv_file(out_data_as_list, in_fileName)
 
 
 

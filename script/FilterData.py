@@ -80,27 +80,44 @@ def filter_by_index(in_fileName, index):
 read in_fileName, filter by index, 
 @in_fileName: csv file
 @index : the column index in the data
-@value : filter by the value
+@value : filter by the value, value must be convert to string
 exclude header
 return a list of row
 '''
 def filter_by_index_value(in_fileName, index, value):
     #if index not in locationlist
 	data_as_list = []
-	with open(in_fileName, 'rb') as in_f:
+	with open(in_fileName, 'rU') as in_f:
 		datareader = csv.reader(in_f)
-		header = datareader.next()
-		next(datareader, None)
-		#print "\nStart filtering data for index %d in file: \n%s"%(index,in_fileName)
-		for line in datareader:
-			if int(line[index]) == value:
-				data_as_list.append(line)
+		data_as_list = list(datareader)[1:]
 	in_f.close()
+	filtered_data_as_list = [ row for row in data_as_list if str(row[index]) == str(value) ]
+
+	# with open(in_fileName, 'rb') as in_f:
+	# 	datareader = csv.reader(in_f)
+	# 	header = datareader.next()
+	# 	next(datareader, None)
+	# 	#print "\nStart filtering data for index %d in file: \n%s"%(index,in_fileName)
+	# 	for line in datareader:
+	# 		if int(line[index]) == value:
+	# 			data_as_list.append(line)
+	# in_f.close()
 	#print "Finished filtering.Total number of rows is :%d"%len(data_as_list)
-	return data_as_list
+	return filtered_data_as_list
 
 
 # if __name__ == "__main__":
+# 	in_fileName = SampleCSV_DIR + "/1991-12-01.csv"
+# 	for i in range(0,1):
+# 	    filter_data_as_list = filter_by_index_value(in_fileName, 38 , str(i))
+# 	    # print filter_data_as_list
+# 	    data_as_list = [ row[5] for row in filter_data_as_list]
+# 	    out_file = MeanShiftResult_DIR + "/" + "HISTOGRAMS/1991-12-01-" + str(i) + ".csv"
+# 	    populate_data_as_list_to_csv_file(data_as_list, out_file)
+
+
+# 	with open('indicators','rU') as in_f:
+		
 
 	# date_list = get_date_list()
 	# start_date_index = date_list.index('1991-12-01')
