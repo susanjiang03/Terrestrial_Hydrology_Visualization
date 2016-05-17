@@ -269,29 +269,23 @@ def populate_sample_date_csv_file(percentage,sampleNum, list_of_date):
 will populate histogram counts of all 
 '''
 
-# def populate_histogram_count_to_csv_file(the_dir,date,list_of_index,):
-
-
-	
-
-
-# if __name__ == "__main__":
-# 	date_list = get_date_list()
-# 	for date in date_list[ date_list.index('1991-12-01') : ] :
-# 		in_fileName = '%s/%s.csv'%(SampleCSV_DIR, date)
-# 		data_as_list = get_data_as_list(in_fileName, range(0,39))
-# 		list_of_labels = [ int(row[-1]) for row in data_as_list]
-# 		n_cluster_ = max(list_of_labels) + 1
-# 		for n in range(0,n_cluster_):
-# 			filter_data_as_list = [row[:-1] for row in data_as_list if int(row[-1]) == n]
-# 			for i in range(0,34):
-# 				header = ['lat', 'lon', HEADER[i + 4]]
-# 				data = [ [float(row[2]), float(row[3]), int(row[i + 4])] for row in filter_data_as_list]
-# 				out_data_as_list = []
-# 				out_data_as_list.append(header)
-# 				out_data_as_list.extend(data)
-# 				out_file = '%s/HISTOGRAMS/%s-%d-%d.csv'%(MeanShiftResult_DIR,date,n,i)
-# 				populate_data_as_list_to_csv_file(out_data_as_list, out_file)
+def populate_histogram_count_to_csv_file():
+	date_list = get_date_list()
+	for date in date_list[ date_list.index('1991-12-01') : ] :
+		in_fileName = '%s/%s.csv'%(SampleCSV_DIR, date)
+		data_as_list = get_data_as_list(in_fileName, range(0,39))
+		list_of_labels = [ int(row[-1]) for row in data_as_list]
+		n_cluster_ = max(list_of_labels) + 1
+		for n in range(0,n_cluster_):
+			filter_data_as_list = [row[:-1] for row in data_as_list if int(row[-1]) == n]
+			for i in range(0,34):
+				header = ['Days']
+				data = [[int(row[i + 4])] for row in filter_data_as_list]
+				out_data_as_list = []
+				out_data_as_list.append(header)
+				out_data_as_list.extend(data)
+				out_file = '%s/Histogram/%s-%d-%d.csv'%(MeanShiftResult_DIR,date,n,i)
+				populate_data_as_list_to_csv_file(out_data_as_list, out_file)
 # # 	date_list = get_date_list()
 # 	list_of_date = date_list[ date_list.index('1991-12-01') :]
 # 	# populate_sample_date_csv_file(0.1, 1, list_of_date)
@@ -304,6 +298,35 @@ will populate histogram counts of all
 # 				out_data_as_list.append(HEADER[0:38])
 # 				out_data_as_list.extend(data_as_list)
 # 				populate_data_as_list_to_csv_file(out_data_as_list, in_fileName)
+
+
+	
+
+
+if __name__ == "__main__":
+	populate_histogram_count_to_csv_file()
+	# for fileName in os.listdir(SampleCSV_DIR):
+	# 	if fileName.endswith(".csv"):
+	# 		in_fileName = os.path.join(SampleCSV_DIR, fileName)
+	# 		data_as_list = get_data_as_list(in_fileName, range(0,39))
+	# 		header = get_header(in_fileName)
+	# 		newHeader = []
+	# 		for h in header:
+	# 			if "-" in h:
+	# 				print "replace -"
+	# 				h = h.replace("-","minus")
+	# 			if "+" in h:
+	# 				print "replace +"
+	# 				h = h.replace("+", "plus")
+	# 			newHeader.append(h)
+	# 		print newHeader
+	# 		out_data_as_list = []
+	# 		out_data_as_list.append(newHeader)
+	# 		out_data_as_list.extend(data_as_list)
+	# 		populate_data_as_list_to_csv_file(out_data_as_list,in_fileName)
+
+
+
 
 
 

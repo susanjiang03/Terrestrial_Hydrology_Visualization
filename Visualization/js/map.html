@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://d3js.org/d3.v3.min.js "></script>
+    <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src ="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="index.js"></script>
+    <script src="jq_.js"></script>
+    <meta charset = "utf-8">
+    <style>
+    .land {
+        fill: #ccc;
+    }
+
+    .boundary {
+        fill: none;
+        stroke: #fff;
+        stroke-width: .5px;
+    }
+
+    </style>
+</head>
+<body>
+<script src="./js/test.js">
+
+// COLORS = ['#4B0082', '#FFD700', '#FF69B4', '#B22222', '#CD5C5C', '#87AE73', '#FFFF00', '#FFE4E1','#556B2F', 
+// '#808000', '#8FBC8F', '#FFC0CB', '#FF6347', '#F08080', '#FF4500', '#FFDEAD', '#00FF00', '#98FB98', '#2F4F4F', 
+// '#ADFF2F', '#DEB887', '#FFF5EE', '#00FA9A', '#FF00FF', '#FFEFD5', '#FFEBCD', '#7FFF00', '#696969']
+
+// var rv;
+
+// var test = d3.csv("1991-12-01.csv", function(d) {
+//     return {
+
+//         "id": d.index,
+//         "start_date": d.start_date,
+//         "type": "Point",
+//         "clusterLabel": +d.clusterLabel,
+//         "coordinates": [+d.lon, +d.lat],
+//         "ft_frozen": +d.ft_frozen,
+        
+
+
+//     };
+//     }, function(data) {
+//         rv = data;
+//     });
+
+
+// var width = 1300,
+//     height = 800;
+
+// var projection = d3.geo.miller()
+//     .scale(153)
+//     .translate([width / 2, height / 2])
+//     .precision(.1);
+
+// var path = d3.geo.path()
+//     .projection(projection);
+
+
+// var tip = d3.tip()
+//     .attr('class', 'd3-tip')
+//     .offset([-10, 0])
+//     .html(function(d) {
+//         return " <span style='color:#edf'>" + d.coordinates + "<br>" + d.ft_frozen + "</span>";
+//     })
+// var svg = d3.select("body").append("svg")
+//     .attr("width", width)
+//     .attr("height", height)
+//     .call(tip);
+
+
+// d3.json("world-50m.json", function(error, world) {
+//     if (error) throw error;
+
+//     svg.insert("path")
+//         .datum(topojson.feature(world, world.objects.land))
+//         .attr("class", "land")
+//         .attr("d", path);
+
+//     svg.insert("path")
+//         .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
+//             return a !== b;
+//         }))
+//         .attr("class", "boundary")
+//         .attr("d", path);
+
+
+//     var points = svg.append("g");
+
+//     points.selectAll("path")
+//         .data(rv)
+//         .enter()
+//         .append("path")
+//         .attr("fill", function(d,i){
+//             for(var k=0;k<34;k++){
+//                 if(k === rv[i]["clusterLabel"]){
+//                     return COLORS[k];
+//                 }
+//             }
+//         })
+//         .style("fill-opacity", 0.2)
+//         .attr("stroke", "#999")
+//         .attr("stroke-width", 0.5)
+//         .style("stroke-opacity", 0.5)
+//         .attr("d", path)
+//         .on('mouseover', tip.show)
+//         .on('mouseout', tip.hide);
+
+
+
+// });
+
+// d3.select(self.frameElement).style("height", height + "px");
+
+</script>
+</body>
+</html>

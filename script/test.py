@@ -261,7 +261,8 @@ def populate_ave_all_variables_for_each_date():
 
 if __name__ == "__main__":
 	# populate_ave_all_variables_for_each_date()
-	populate_ave_for_all_date()
+	# populate_ave_for_all_date()
+	populate_ave_by_season()
 
 
 # old = 'P0.1_N1_'

@@ -31,7 +31,9 @@ GRID_INDEXLIST_JSON = "grid_indexList.json"
 INDEX_LATLON_JSON = "index_LatLon.json"
 DATE_LIST_TXT = "date_list.txt"
 
-# colors_ = list(six.iteritems(colors.cnames))*2
+colors_ = list(six.iteritems(colors.cnames))*2
+
+
 COLORS = ['#4B0082', '#FFD700', '#FF69B4', '#B22222', '#CD5C5C', '#87AE73', '#FFFF00', '#FFE4E1','#556B2F', 
 '#808000', '#8FBC8F', '#FFC0CB', '#FF6347', '#F08080', '#FF4500', '#FFDEAD', '#00FF00', '#98FB98', '#2F4F4F', 
 '#ADFF2F', '#DEB887', '#FFF5EE', '#00FA9A', '#FF00FF', '#FFEFD5', '#FFEBCD', '#7FFF00', '#696969']
