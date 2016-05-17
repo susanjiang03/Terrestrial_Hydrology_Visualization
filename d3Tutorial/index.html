@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="d3.v3.js"></script>
+        <style type="text/css">
+            div.bar {
+            display: inline-block;
+            width: 20px;
+            height: 75px;   /* We'll override this later */
+            margin-right: 2px;
+            background-color: teal;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var dataset = [];                        //Initialize empty array
+            for (var i = 0; i < 6; i++) {           //Loop 25 times
+                var newNumber = Math.random() * 30;  //New random number (0-30)
+                dataset.push(newNumber);             //Add new number to array
+            }
+            d3.select("body").selectAll("div")
+                .data(dataset)
+                .enter()
+                .append("div")
+                .attr("class", "bar")
+                .style("height",function(d){
+                    var barHeight = d * 5;  //Scale up by factor of 5
+                    return barHeight + "px";
+                });
+
+            var svg = d3.select("body").append("svg"); 
+            svg.attr("width",500).attr("height",50)   
+
+           var circles = svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle");
+
+            circles.attr("cx",function(d,i){
+                return (i * 50) + 25;
+            })   
+                .attr("cy",50/2)
+                .attr("r",function(d){
+                    return d;
+                })
+                .attr("fill","yellow")
+                .attr("stroke","orange")
+                .attr("stroke-width",function(d){
+                    return d/2;
+                });
+        </script>
+        <svg width="500" height="50">
+            <circle cx="25" cy="25" r="20" fill="rgba(128, 0, 128, 1.0)"/>
+            <circle cx="50" cy="25" r="20" fill="rgba(0, 0, 255, 0.75)"/>
+            <circle cx="75" cy="25" r="20" fill="rgba(0, 255, 0, 0.5)"/>
+            <circle cx="100" cy="25" r="20" fill="rgba(255, 255, 0, 0.25)"/>
+            <circle cx="125" cy="25" r="20" fill="rgba(255, 0, 0, 0.1)"/>
+        </svg>  
+
+        
+
+    </body>
+</html>     
