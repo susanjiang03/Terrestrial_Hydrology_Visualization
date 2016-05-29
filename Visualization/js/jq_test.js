@@ -127,6 +127,10 @@ var n_cluster = parseInt($('#clusterNum').text());
   
 });
 
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
  
 
 });

@@ -304,7 +304,25 @@ def populate_histogram_count_to_csv_file():
 
 
 if __name__ == "__main__":
-	populate_histogram_count_to_csv_file()
+	in_fileName = SampleCSV_DIR + "/1991-12-01.CSV"
+	header = ['name']
+	header.extend(HEADER[4:38])
+	out_data_as_list = [header]
+	# out_data_as_list.append(header)
+	list1 = [38]
+	list1.extend(range(4,38))
+	data_as_list = get_data_as_list(in_fileName, list1)
+	# out_data_as_list.extend(data_as_list)
+	filter_data_as_list = [row for row in data_as_list if int(row[0]) == 0 ]
+	out_data_as_list.extend(filter_data_as_list)
+	populate_data_as_list_to_csv_file(out_data_as_list, "paraller.csv")
+	# # populate_histogram_count_to_csv_file()
+	# header =['name','economy (mpg)','cylinders','displacement (cc)','power (hp)','weight (lb)','0-60 mph (s)','year']
+	# num = len(header)
+	# in_fileName = SampleCSV_DIR + "/1991-12-01.csv"
+	# data_as_list = get_data_as_list(in_fileName, [])
+	# for n in range(0, num):
+
 	# for fileName in os.listdir(SampleCSV_DIR):
 	# 	if fileName.endswith(".csv"):
 	# 		in_fileName = os.path.join(SampleCSV_DIR, fileName)
