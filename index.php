@@ -92,7 +92,7 @@ Licensed under MIT
     <div class="col-lg-3 h4 middle"> Date : &nbsp;&nbsp;<span id="date">  </span></div>
     <div class="col-lg-4 h4 middle"> Estimated number of clusters :  <span id="clusterNum" class = ""> </span></div>
 
-    <div class="dropdown col-lg-3" style="top:1vh">
+    <div class="dropdown col-lg-3" style="top:1vh;background-color:blue;">
           <a  class="dropdown-toggle h4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" value> Change by : &nbsp;&nbsp; <span id="season-lineChart" value="">  </span>  </a>
           <ul class="dropdown-menu">
           <li onclick="showAverageLinesChart(this.value)" value=0 class="btn-lineChart changeDate" name="All seasons"><a> All seasons </a></li>
