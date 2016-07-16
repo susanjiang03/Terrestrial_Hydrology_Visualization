@@ -93,13 +93,13 @@ Licensed under MIT
     <div class="col-lg-4 h4 middle"> Estimated number of clusters :  <span id="clusterNum" class = ""> </span></div>
 
     <div class="dropdown col-lg-3" style="top:1vh">
-          <a  class="dropdown-toggle h4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" value> Change by : &nbsp;&nbsp; <span id="season-lineChart" value="">  </span>  </a>
+          <a  class="dropdown-toggle h4 btn btn-primary btn-block" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" value> Change by : &nbsp;&nbsp; <span id="season-lineChart" value="">  </span>  </a>
           <ul class="dropdown-menu">
-          <li  value=0 class="btn-lineChart" name="All seasons"><a> All seasons </a></li>
-           <li  value=1 class="btn-lineChart" name="Spring"><a> Spring </a></li>
-             <li  value=2 class="btn-lineChart" name="Summer"><a > Summer </a></li>
-             <li value=3 class="btn-lineChart" name="Fall"> <a >Fall </a></li>
-            <li   value=4 class="btn-lineChart" name="Winter"> <a> Winter</a></li>
+          <li  value=0 class="season" name="All seasons"><a> All seasons </a></li>
+           <li  value=1 class="season" name="Spring"><a> Spring </a></li>
+             <li  value=2 class="season" name="Summer"><a > Summer </a></li>
+             <li value=3 class="season" name="Fall"> <a >Fall </a></li>
+            <li   value=4 class="season" name="Winter"> <a> Winter</a></li>
           </ul>
         </div>
   </div>

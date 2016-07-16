@@ -43,7 +43,7 @@ var colors = ['#4B0082', '#FFD700', '#FF69B4', '#B22222', '#CD5C5C', '#87AE73', 
  ShowMap(date_list[0]);
 
 
-   $('.btn-lineChart').click(function(){
+   $('.season').click(function(){
 
       $('#time-slider').removeClass('hidden');
       $('#map').html("");
