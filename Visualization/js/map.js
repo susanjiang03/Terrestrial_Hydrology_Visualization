@@ -1,4 +1,4 @@
-function showMap(date){
+function ShowMap(date){
 
 var COLORS = ['#4B0082', '#FFD700', '#0000FF', '#B22222', '#CD5C5C', '#87AE73', '#FFFF00', '#FFE4E1','#556B2F', 
 '#808000', '#8FBC8F', '#FFC0CB', '#FF6347', '#F08080', '#FF4500', '#FFDEAD', '#00FF00', '#98FB98', '#2F4F4F', 
@@ -14,7 +14,7 @@ var  HEADER = ['ft_frozen', 'ft_thawed', 'ft_trans', 'ft_itrans',
 
 var dataset;
 
-var test = d3.csv( "./CSV/" + date + ".csv", function(d) {
+var test = d3.csv( "./CSV/" + date+ ".csv", function(d) {
     return {
 
         "id": d.index,

@@ -95,11 +95,11 @@ Licensed under MIT
     <div class="dropdown col-lg-3" style="top:1vh">
           <a  class="dropdown-toggle h4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" value> Change by : &nbsp;&nbsp; <span id="season-lineChart" value="">  </span>  </a>
           <ul class="dropdown-menu">
-          <li onclick="showAverageLinesChart(this.value)" value=0 class="btn-lineChart changeDate" name="All seasons"><a> All seasons </a></li>
-           <li onclick="showAverageLinesChart(this.value)" value=1 class="btn-lineChart changeDate" name="Spring"><a> Spring </a></li>
-             <li onclick="showAverageLinesChart(this.value)" value=2 class="btn-lineChart changeDate" name="Summer"><a > Summer </a></li>
-             <li onclick="showAverageLinesChart(this.value)" value=3 class="btn-lineChart changeDate" name="Fall"> <a >Fall </a></li>
-            <li onclick="showAverageLinesChart(this.value)" value=4 class="btn-lineChart changeDate" name="Winter"> <a> Winter</a></li>
+          <li  value=0 class="btn-lineChart" name="All seasons"><a> All seasons </a></li>
+           <li  value=1 class="btn-lineChart" name="Spring"><a> Spring </a></li>
+             <li  value=2 class="btn-lineChart" name="Summer"><a > Summer </a></li>
+             <li value=3 class="btn-lineChart" name="Fall"> <a >Fall </a></li>
+            <li   value=4 class="btn-lineChart" name="Winter"> <a> Winter</a></li>
           </ul>
         </div>
   </div>
@@ -113,35 +113,19 @@ Licensed under MIT
 </div>
 <div  class = "col-lg-1" style="height:300px;" id="clusterLabels">
 
-            <button id="cluster_0" class="btn hidden cluster" style="background-color:#4B0082;" data-toggle="tooltip" data-placement="right" title="cluster 0"></button>
-            <button id="cluster_1" class="btn hidden cluster" style="background-color:#0000FF;" data-toggle="tooltip" data-placement="right" title="cluster 1"> </button>
-            <button id="cluster_2" class="btn hidden cluster" style="background-color:#FF69B4;" data-toggle="tooltip" data-placement="right" title="cluster 2"></button>
-            <button id="cluster_3" class="btn hidden cluster" style="background-color:#B22222;" data-toggle="tooltip" data-placement="right" title="cluster 3 "></button>
-            <button id="cluster_4" class="btn hidden cluster" style="background-color:#CD5C5C;" data-toggle="tooltip" data-placement="right" title="cluster 4 "></button>
-            <button id="cluster_5" class="btn hidden cluster" style="background-color:#87AE73; " data-toggle="tooltip" data-placement="right" title="cluster 5"></button>
-            <button id="cluster_6" class="btn hidden cluster" style="background-color:#FFFF00;" data-toggle="tooltip" data-placement="right" title="cluster 6"></button>
-            <button id="cluster_7" class="btn hidden cluster" style="background-color:#FFE4E1;" data-toggle="tooltip" data-placement="right" title="cluster 7"></button>
-            <button id="cluster_8" class="btn hidden cluster" style="background-color:#556B2F;" data-toggle="tooltip" data-placement="right" title="cluster 8"></button>
-            <button id="cluster_9" class="btn hidden cluster" style="background-color:#808000;" data-toggle="tooltip" data-placement="right" title="cluster 9"></button>
-            <button id="cluster_10" class="btn hidden cluster" style="background-color:#8FBC8F;" data-toggle="tooltip" data-placement="right" title="cluster 10"></button>
-            <button id="cluster_11" class="btn hidden cluster" style="background-color:#FFC0CB;" data-toggle="tooltip" data-placement="right" title="cluster 11"></button>
-            <button id="cluster_12" class="btn hidden cluster" style="background-color:#FF6347;" data-toggle="tooltip" data-placement="right" title="cluster 12"></button>
-            <button id="cluster_13" class="btn hidden cluster" style="background-color:#F08080;" data-toggle="tooltip" data-placement="right" title="cluster 13"></button>
-            <button id="cluster_14" class="btn hidden cluster" style="background-color:#FF4500;" data-toggle="tooltip" data-placement="right" title="cluster 14"></button>
-            <button id="cluster_15" class="btn hidden cluster" style="background-color:#FFDEAD;" data-toggle="tooltip" data-placement="right" title="cluster 15"></button>
-            <button id="cluster_16" class="btn hidden cluster" style="background-color:#00FF00;" data-toggle="tooltip" data-placement="right" title="cluster 16"></button>
-            <button id="cluster_17" class="btn hidden cluster" style="background-color:#98FB98;" data-toggle="tooltip" data-placement="right" title="cluster 17"></button>
-            <button id="cluster_18" class="btn hidden cluster" style="background-color:#2F4F4F;" data-toggle="tooltip" data-placement="right" title="cluster 18"></button>
-            <button id="cluster_19" class="btn hidden cluster" style="background-color:#ADFF2F;" data-toggle="tooltip" data-placement="right" title="cluster 19"></button>
-            <button id="cluster_20" class="btn hidden cluster" style="background-color:#DEB887;" data-toggle="tooltip" data-placement="right" title="cluster 20"></button>
-            <button id="cluster_21" class="btn hidden cluster" style="background-color:#FFF5EE;" data-toggle="tooltip" data-placement="right" title="cluster 21"></button>
-            <button id="cluster_22" class="btn hidden cluster" style="background-color:#00FA9A;" data-toggle="tooltip" data-placement="right" title="cluster 22"></button>
-            <button id="cluster_23" class="btn hidden cluster" style="background-color:#FF00FF;" data-toggle="tooltip" data-placement="right" title="cluster 23"></button>
-            <button id="cluster_24" class="btn hidden cluster" style="background-color:#FFEFD5;" data-toggle="tooltip" data-placement="right" title="cluster 24"></button>
-            <button id="cluster_25" class="btn hidden cluster" style="background-color:#FFEBCD;" data-toggle="tooltip" data-placement="right" title="cluster 25"></button>
-            <button id="cluster_26" class="btn hidden cluster" style="background-color:#7FFF00;" data-toggle="tooltip" data-placement="right" title="cluster 26"></button>
-            <button tid="cluster_27" class="btn hidden cluster" style="background-color:#696969';" data-toggle="tooltip" data-placement="right" title="cluster 27"></button>
+<?php
 
+$colors = ['#4B0082', '#FFD700', '#FF69B4', '#B22222', '#CD5C5C', '#87AE73', '#FFFF00', 
+'#FFE4E1', '#556B2F', '#808000', '#8FBC8F', '#FFC0CB', '#FF6347', '#F08080', 
+'#FF4500', '#FFDEAD', '#00FF00', '#98FB98', '#2F4F4F', '#ADFF2F', '#DEB887', 
+'#FFF5EE', '#00FA9A', '#FF00FF', '#FFEFD5', '#FFEBCD', '#7FFF00', '#696969'];
+
+for($i = 0; $i < sizeof($colors); $i++){
+
+  echo '<button id="cluster_'.$i.'" class="btn hidden cluster" style="background-color:'.$colors[$i].'" data-toggle="tooltip" data-placement="right" title="cluster 0"></button>';
+}
+
+?>
 
         </div>
 </div>
@@ -153,18 +137,18 @@ Licensed under MIT
       </div>
 
     <div class = "col-lg-3 ">
-      <button  id ="goFirst" type="button" class="btn btn-default col-lg-3" value="0" onclick="firstDate(this.value);">
+      <button type="button" class="changeDate btn btn-default col-lg-3" value="0">
         <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
       </button>
-      <button id = "goPrev"  ype="button" class="btn btn-default col-lg-3 changeDate" value="1" onclick="prevDate(this.value);">
+      <button type="button" class="changeDate btn btn-default col-lg-3 changeDate" value="--">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
       </button>
 
-      <button id="goNext" type="button" class="btn btn-default col-lg-3 changeDate"  value="1" onclick="nextDate(this.value);">
+      <button  type="button" class="changeDate  btn btn-default col-lg-3 changeDate"  value="++">
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
       </button>
 
-      <button id="goLast" type="button" class="btn btn-default col-lg-3 changeDate" value="63" onclick="lastDate(this.value);">
+      <button type="button" class="changeDate btn btn-default col-lg-3 changeDate" value="-1">
         <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
       </button>
     </div>
